@@ -1,0 +1,21 @@
+<h1>Recipe Finder</h1>
+
+<%= form_with url: recipes_path, method: :get, local: true do %>
+  <label>Ingredients (comma separated):</label>
+  <%= text_field_tag :ingredients, params[:ingredients] %>
+  <%= submit_tag 'Search' %>
+<% end %>
+
+<h2>Recipes</h2>
+<ul>
+  <% @recipes.each do |recipe| %>
+    <li>
+      <strong><%= recipe.name %></strong>: <%= recipe.description %><br>
+      <img src="<%= recipe.image %>" alt="<%= recipe.name %>" style="width: 200px; height: auto;"><br>
+      Ratings: <%= recipe.ratings %><br>
+      Cuisine: <%= recipe.cuisine %><br>
+      Category: <%= recipe.category %><br>
+      Author: <%= recipe.author %><br>
+    </li>
+  <% end %>
+</ul>

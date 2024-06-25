@@ -1,22 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipe Finder</title>
+</head>
+<body>
+
 <h1>Recipe Finder</h1>
 
-<%= form_with url: recipes_path, method: :get, local: true do %>
-  <label>Ingredients (comma separated):</label>
-  <%= text_field_tag :ingredients, params[:ingredients] %>
-  <%= submit_tag 'Search' %>
-<% end %>
-
-<h2>Recipes</h2>
-<ul>
-  <% @recipes.each do |recipe| %>
-    <li>
-      <strong><%= recipe.name %></strong>: <%= recipe.description %><br>
-      <img src="<%= recipe.image %>" alt="<%= recipe.name %>" style="width: 200px; height: auto;"><br>
-      Ratings: <%= recipe.ratings %><br>
-      Cuisine: <%= recipe.cuisine %><br>
-      Category: <%= recipe.category %><br>
-      Author: <%= recipe.author %><br>
-      Matching Ingredients Count: <%= recipe.matching_fraction %>
-    </li>
+<div class="form-container">
+  <%= form_with url: recipes_path, method: :get, local: true do %>
+    <label>What ingredients do you have? (comma separated):</label>
+    <%= text_field_tag :ingredients, params[:ingredients] %>
+    <%= submit_tag 'Search' %>
   <% end %>
-</ul>
+</div>
+
+<h2>Recommended Recipes</h2>
+<div class="recipes">
+  <% @recipes.each do |recipe| %>
+    <div class="recipe">
+      <strong><%= recipe.name %></strong>: <%= recipe.description %><br>
+      <img src="<%= recipe.image %>" alt="<%= recipe.name %>"><br>
+      <p>
+        <strong>Ratings:</strong> <%= recipe.ratings %><br>
+        <strong>Category:</strong> <%= recipe.category %><br>
+        <strong>Author:</strong> <%= recipe.author %><br>
+        <strong>Your Matching Ingredients:</strong> <%= recipe.matching_fraction %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+</body>
+</html>

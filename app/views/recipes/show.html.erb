@@ -1,0 +1,31 @@
+<h1>Recipe Details</h1>
+
+<div class="recipe">
+  <h2><%= @recipe.name %></h2>
+  <p><strong>Prep Time:</strong> <%= @recipe.description %></p>
+  <img src="<%= @recipe.image %>" alt="<%= @recipe.name %>" style="width: 200px; height: auto;">
+  <p><strong>Ratings:</strong> <%= @recipe.ratings %></p>
+  <p><strong>Category:</strong> <%= @recipe.category %></p>
+  <p><strong>Author:</strong> <%= @recipe.author %></p>
+
+  <h3>Ingredients:</h3>
+  <ul>
+    <% @recipe.ingredients.each do |ingredient| %>
+      <li>
+        <%= ingredient.name %>
+        <% if @submitted_ingredient_keywords.any? { |kw| ingredient.name.downcase.include?(kw.downcase) } %>
+          ✅
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <% if @recipe.tried %>
+    <p><strong>Status:</strong> This recipe has been tried 🧑‍🍳</p>
+    <%= button_to 'Mark as Untried', untry_recipe_path(@recipe), method: :post %>
+  <% else %>
+    <%= button_to 'Mark as Tried', try_recipe_path(@recipe), method: :post %>
+  <% end %>
+</div>
+
+<p class="center"><%= link_to 'Back to Recipes List', recipes_path(ingredients: params[:submitted_ingredients]) %></p>

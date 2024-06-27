@@ -26,6 +26,10 @@
         <strong>Category:</strong> <%= recipe.category %><br>
         <strong>Author:</strong> <%= recipe.author %><br>
         <strong>Your Matching Ingredients:</strong> <%= recipe.matching_fraction %>
+        <% if recipe.tried %>
+          <p><strong>Status:</strong> This recipe has been tried 🧑‍🍳</p>
+        <% end %>
+        <%= link_to 'View Recipe', recipe_path(recipe, submitted_ingredients: params[:ingredients]) %>
       </p>
     </div>
   <% end %>

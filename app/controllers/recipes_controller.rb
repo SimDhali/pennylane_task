@@ -24,7 +24,37 @@ class RecipesController < ApplicationController
         @recipes = []
       end
     else
-      @recipes = Recipe.all
+      @recipes = Recipe.all.map do |recipe|
+        total_ingredients_count = recipe.ingredients.size
+        matching_fraction = "0/#{total_ingredients_count}"
+        matching_ratio = 0.0
+        recipe.define_singleton_method(:matching_fraction) { matching_fraction }
+        recipe.define_singleton_method(:matching_ratio) { matching_ratio }
+        recipe
+      end
+    end
+  end
+
+  def show
+    @recipe = Recipe.find(params[:id])
+    @submitted_ingredient_keywords = params[:submitted_ingredients].to_s.split(',').map(&:strip)
+  end
+
+  def try
+    @recipe = Recipe.find(params[:id])
+    if @recipe.mark_as_tried
+      redirect_to @recipe, notice: 'Recipe marked as tried.'
+    else
+      redirect_to @recipe, alert: 'Failed to mark recipe as tried.'
+    end
+  end
+
+  def untry
+    @recipe = Recipe.find(params[:id])
+    if @recipe.unmark_as_tried
+      redirect_to @recipe, notice: 'Recipe marked as untried.'
+    else
+      redirect_to @recipe, alert: 'Failed to mark recipe as untried.'
     end
   end
 end
